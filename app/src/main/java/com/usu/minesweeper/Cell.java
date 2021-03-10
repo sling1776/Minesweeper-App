@@ -63,6 +63,32 @@ public class Cell {
 
     public void draw(Canvas canvas, Paint paint) {
         // TODO: Draw the cell at its position depending on the state it is in
+
+        if(!isSelected){
+            if(isMarked){
+                paint.setColor(Color.LTGRAY);
+                canvas.drawRect((float)xPos, (float)yPos, (float)(xPos + width), (float)(yPos + height),paint);
+                paint.setColor(Color.BLACK);
+                paint.setStyle(Paint.Style.STROKE);
+                canvas.drawRect((float)xPos, (float)yPos, (float)(xPos + width), (float)(yPos + height),paint);
+                paint.setColor(Color.GREEN);
+                paint.setStrokeWidth(10);
+                canvas.drawLine((float)(xPos+5), (float)(yPos+5),(float)(xPos + (width/2)), (float)(yPos + height - 5), paint);
+                canvas.drawLine((float)(xPos + (width/2)), (float)(yPos + height - 5), (float)(xPos + (width - 5)), (float)(yPos + 5), paint);
+                canvas.drawLine((float)(xPos+5), (float)(yPos+5), (float)(xPos + (width - 5)), (float)(yPos + 5), paint);
+
+            }else {
+                paint.setColor(Color.GRAY);
+                canvas.drawRect((float) xPos, (float) yPos, (float) (xPos + width), (float) (yPos + height), paint);
+                paint.setColor(Color.BLACK);
+                paint.setStyle(Paint.Style.STROKE);
+                canvas.drawRect((float) xPos, (float) yPos, (float) (xPos + width), (float) (yPos + height), paint);
+                paint.reset();
+            }
+        }
+        else{
+
+        }
     }
 
     public Type getType() {
