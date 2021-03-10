@@ -212,18 +212,18 @@ public class Game {
         }
 
         if (state == State.WIN) {
-            // TODO draw a win screen here
+
             paint.setColor(Color.BLACK);
             paint.setTextSize(200);
             canvas.drawText("YOU WIN",screenWidth/8, screenHeight/2,paint );
             paint.reset();
         }
-        if (state == State.LOSE) {
-            // TODO draw a win screen here
-            paint.setColor(Color.BLACK);
-            paint.setTextSize(200);
-            canvas.drawText("YOU LOSE",screenWidth/11, screenHeight/2, paint );
-            paint.reset();
-        }
+//        if (state == State.LOSE) {
+//
+//            paint.setColor(Color.BLACK);
+//            paint.setTextSize(200);
+//            canvas.drawText("YOU LOSE",screenWidth/11, screenHeight/2, paint );
+//            paint.reset();
+//        }
     }
 }
