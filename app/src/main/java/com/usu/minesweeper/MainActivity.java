@@ -5,6 +5,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -14,13 +15,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO: create the views for the main page and transition
-        //  to the main page once the difficulty is selected
+
         LinearLayout mainLayout = new LinearLayout(this);
         mainLayout.setOrientation(LinearLayout.VERTICAL);
 
         AppCompatTextView welcomeText = new AppCompatTextView(this);
         welcomeText.setText(getResources().getText(R.string.app_name));
+        welcomeText.setTextColor(Color.BLACK);
         welcomeText.setTextSize(40);
         welcomeText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         },this);
+        easyButton.setBackgroundColor(Color.rgb(100,200,100));
 
         AppCompatButton mediumButton = new difficultyButton("Intermediate", new View.OnClickListener() {
             @Override
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         },this);
+       mediumButton.setBackgroundColor(Color.rgb(100,100,200));
 
         AppCompatButton hardButton =  new difficultyButton("Expert", new View.OnClickListener() {
             @Override
@@ -54,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         },this);
+        hardButton.setBackgroundColor(Color.rgb(200,100,100));
 
 
         mainLayout.addView(welcomeText);

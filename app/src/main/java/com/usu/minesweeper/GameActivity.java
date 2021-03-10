@@ -12,9 +12,7 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        String gameMode = intent.getStringExtra("difficulty"); // TODO: Retrieve the game mode from the intent;
-//        AppCompatTextView test = new AppCompatTextView(this);
-//        test.setText(gameMode);
+        String gameMode = intent.getStringExtra("difficulty");
         GameView gameView = new GameView(this, gameMode);
         setContentView(gameView);
     }

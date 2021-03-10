@@ -59,13 +59,11 @@ public class Game {
             for (int j = 0; j < cols; j++) {
                 boolean mineValue = mineArray.get(0);
                 mineArray.remove(0);
+                double width = screenWidth/cols;
+                double height = screenHeight/rows;
                 if (mineValue) {
-                    double width = screenWidth/cols;
-                    double height = screenHeight/rows;
                     cells[i][j] = new Cell(j *width, i*height, width, height, Cell.Type.MINE);
                 } else {
-                    double width = screenWidth/cols;
-                    double height = screenHeight/rows;
                     cells[i][j] = new Cell(j * width, i * height, width, height, Cell.Type.EMPTY);
                 }
             }
@@ -165,8 +163,6 @@ public class Game {
     }
 
     public void handleLongPress(MotionEvent e) {
-        // TODO: find the cell and toggle its mark
-        //       then check to see if the player won the game
         if(state == State.PLAY) {
             float tapX = e.getX();
             float tapY = e.getY();
@@ -191,9 +187,9 @@ public class Game {
                 else if(cells[i][j].isMarked() && !(cells[i][j].getType() == Cell.Type.MINE)){
                     incorrectMark++;
                 }
-
             }
         }
+        //select all un selected cells if game has been won.
         if(minesMarked == mineCount && incorrectMark == 0){
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j <cols ; j++) {
