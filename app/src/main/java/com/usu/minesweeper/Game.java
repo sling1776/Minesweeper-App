@@ -23,7 +23,6 @@ public class Game {
     double cellHeight;
     int screenWidth;
     int screenHeight;
-    int markedMines = 0;
     State state = State.PLAY;
 
     public Game(String gameMode, int screenWidth, int screenHeight) {
@@ -161,7 +160,7 @@ public class Game {
                     chosenCell.select();
                 }
             }
-            if(markedMines == mineCount) checkWin();
+
         }
     }
 
@@ -176,13 +175,7 @@ public class Game {
             float cellY = tapY / (float) cellHeight;
 
             Cell chosenCell = cells[(int) cellY][(int) cellX];
-            chosenCell.toggleMark();
-
-            if (chosenCell.isMarked()) {
-                markedMines++;
-            } else {
-                markedMines--;
-            }
+            if(!chosenCell.isSelected())chosenCell.toggleMark();
             checkWin();
         }
     }
@@ -202,8 +195,14 @@ public class Game {
             }
         }
         if(minesMarked == mineCount && incorrectMark == 0){
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j <cols ; j++) {
+                    if(!cells[i][j].isMarked() && !cells[i][j].isSelected()){
+                        cells[i][j].select();
+                    }
+                }
+            }
             state = State.WIN;
-
         }
     }
 
