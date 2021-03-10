@@ -41,12 +41,6 @@ public class Game {
     }
 
     private void initCells() {
-       // TODO: create all cells, randomly assigning cells to be mines depending on difficulty.
-        // HINT: 1. Create an ArrayList of Booleans
-        //      2. set the first n (where n is number of mines you want) to be true
-        //      3. set the remaining to be false (the total number of items in the list should be rows * cols)
-        //      4. then shuffle the array list using Collections.shuffle()
-        //      5. Then you can use this arraylist like a queue when iterating of your grid
 
         ArrayList<Boolean> mineArray = new ArrayList<>();
 
@@ -80,14 +74,13 @@ public class Game {
         {
             for (int j = 0; j < cols; j++) {
                 int num = countNeighbors(i, j, cells);
-                if(!(num == 0)){
+                if(!(num == 0) && !(cells[i][j].getType() == Cell.Type.MINE)){
                     cells[i][j].setType(Cell.Type.NUMBER);
                     cells[i][j].setNumNeighbors(num);
                 }
             }
         }
 
-        cells[1][1].toggleMark();
     }
 
 

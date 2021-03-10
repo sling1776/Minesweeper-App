@@ -66,17 +66,18 @@ public class Cell {
 
         if(!isSelected){
             if(isMarked){
+                int margin = 10;
                 paint.setColor(Color.LTGRAY);
                 canvas.drawRect((float)xPos, (float)yPos, (float)(xPos + width), (float)(yPos + height),paint);
                 paint.setColor(Color.BLACK);
                 paint.setStyle(Paint.Style.STROKE);
                 canvas.drawRect((float)xPos, (float)yPos, (float)(xPos + width), (float)(yPos + height),paint);
-                paint.setColor(Color.GREEN);
+                paint.setColor(Color.rgb(100,200,100));
                 paint.setStrokeWidth(10);
-                canvas.drawLine((float)(xPos+5), (float)(yPos+5),(float)(xPos + (width/2)), (float)(yPos + height - 5), paint);
-                canvas.drawLine((float)(xPos + (width/2)), (float)(yPos + height - 5), (float)(xPos + (width - 5)), (float)(yPos + 5), paint);
-                canvas.drawLine((float)(xPos+5), (float)(yPos+5), (float)(xPos + (width - 5)), (float)(yPos + 5), paint);
-
+                canvas.drawLine((float)(xPos+margin), (float)(yPos+margin),(float)(xPos + (width/2)), (float)(yPos + height - margin), paint);
+                canvas.drawLine((float)(xPos + (width/2)), (float)(yPos + height - margin), (float)(xPos + (width - margin)), (float)(yPos + margin), paint);
+                canvas.drawLine((float)(xPos+margin), (float)(yPos+margin), (float)(xPos + (width - margin)), (float)(yPos + margin), paint);
+                paint.reset();
             }else {
                 paint.setColor(Color.GRAY);
                 canvas.drawRect((float) xPos, (float) yPos, (float) (xPos + width), (float) (yPos + height), paint);
@@ -87,7 +88,39 @@ public class Cell {
             }
         }
         else{
+            if(getType() == Type.EMPTY){
+                paint.setColor(Color.WHITE);
+                canvas.drawRect((float) xPos, (float) yPos, (float) (xPos + width), (float) (yPos + height), paint);
+                paint.setColor(Color.BLACK);
+                paint.setStyle(Paint.Style.STROKE);
+                canvas.drawRect((float) xPos, (float) yPos, (float) (xPos + width), (float) (yPos + height), paint);
+                paint.reset();
 
+            } else if(getType() == Type.MINE){
+                int margin = 10;
+                paint.setColor(Color.WHITE);
+                canvas.drawRect((float) xPos, (float) yPos, (float) (xPos + width), (float) (yPos + height), paint);
+                paint.setColor(Color.BLACK);
+                paint.setStyle(Paint.Style.STROKE);
+                canvas.drawRect((float) xPos, (float) yPos, (float) (xPos + width), (float) (yPos + height), paint);
+                paint.setStrokeWidth(10);
+                paint.setColor(Color.RED);
+                canvas.drawLine((float)(xPos + margin), (float)(yPos+margin),(float)(xPos + width - margin), (float)(yPos + height - margin), paint);
+                canvas.drawLine((float)(xPos + width - margin), (float)(yPos + margin), (float)(xPos + margin), (float)(yPos + height - margin), paint);
+                paint.reset();
+            } else {
+                int margin = 10;
+                paint.setColor(Color.WHITE);
+                canvas.drawRect((float) xPos, (float) yPos, (float) (xPos + width), (float) (yPos + height), paint);
+                paint.setColor(Color.BLACK);
+                paint.setStyle(Paint.Style.STROKE);
+                canvas.drawRect((float) xPos, (float) yPos, (float) (xPos + width), (float) (yPos + height), paint);
+                paint.setColor(colors[numNeighbors-1]);
+                paint.setStyle(Paint.Style.FILL);
+                paint.setTextSize(50);
+                canvas.drawText(""+numNeighbors, (float)(xPos+(width/3)), (float)(yPos +height - margin), paint);
+                paint.reset();
+            }
         }
     }
 

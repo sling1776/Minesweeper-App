@@ -35,21 +35,21 @@ public class MainActivity extends AppCompatActivity {
             }
         },this);
 
-        AppCompatButton mediumButton = new difficultyButton("Medium", new View.OnClickListener() {
+        AppCompatButton mediumButton = new difficultyButton("Intermediate", new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, GameActivity.class);
-                String difficulty = "medium";
+                String difficulty = "intermediate";
                 intent.putExtra("difficulty", difficulty);
                 startActivity(intent);
             }
         },this);
 
-        AppCompatButton hardButton =  new difficultyButton("Hard", new View.OnClickListener() {
+        AppCompatButton hardButton =  new difficultyButton("Expert", new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, GameActivity.class);
-                String difficulty = "hard";
+                String difficulty = "expert";
                 intent.putExtra("difficulty", difficulty);
                 startActivity(intent);
             }
