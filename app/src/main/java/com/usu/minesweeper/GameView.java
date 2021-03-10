@@ -58,7 +58,6 @@ public class GameView extends View {
 
 
         setOnTouchListener((view, e) -> {
-            // TODO: use your gesture detector here.
             gestureDetectorCompat.onTouchEvent(e);
             return true;
         });
