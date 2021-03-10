@@ -1,6 +1,7 @@
 package com.usu.minesweeper;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.MotionEvent;
 
@@ -22,6 +23,7 @@ public class Game {
     double cellHeight;
     int screenWidth;
     int screenHeight;
+    int markedMines = 0;
     State state = State.PLAY;
 
     public Game(String gameMode, int screenWidth, int screenHeight) {
@@ -85,7 +87,7 @@ public class Game {
 
 
     private int countNeighbors(int row, int col, Cell[][] cells) {
-        // TODO: Count how many mines surround the cell at (row, col);
+
         int count = 0;
         int left = col - 1;
         int right = col + 1;
@@ -111,7 +113,6 @@ public class Game {
     }
 
     private void revealMines() {
-        // TODO: loop through the cells and select all mines
         for(int i = 0 ; i< rows;  i++){
             for (int j  = 0 ; j < cols ; j++){
                 if (cells[i][j].getType()== Cell.Type.MINE) cells[i][j].select();
@@ -120,37 +121,90 @@ public class Game {
     }
 
     private void explodeBlankCells(int row, int col) {
-        // TODO: recursively select all surrounding cells, only stopping when
-        //      you reach a cell that has already been selected,
-        //      or when you select a cell that is not Empty
-        if(!(row < rows) && !(col < cols) ) return;
-        if(!(row > 0) && !(col > 0)) return;
+        if((row >= rows) || (col >= cols) ) return;
+        if((row < 0) || (col < 0)) return;
+        if(cells[row][col].isSelected()) return;
+        if(cells[row][col].isMarked()) return;
         cells[row][col].select();
-        if(cells[row][col].getType() == Cell.Type.EMPTY){
-            explodeBlankCells(row - 1, col - 1);
-            explodeBlankCells(row - 1, col);
-            explodeBlankCells(row - 1, col + 1);
-            explodeBlankCells(row, col - 1);
-            explodeBlankCells(row , col + 1);
-            explodeBlankCells(row + 1, col - 1);
-            explodeBlankCells(row + 1, col);
-            explodeBlankCells(row + 1, col + 1);
+        if(cells[row][col].getType() == Cell.Type.NUMBER)return;
 
-        }
+        explodeBlankCells(row - 1, col - 1);
+        explodeBlankCells(row - 1, col);
+        explodeBlankCells(row - 1, col + 1);
+        explodeBlankCells(row, col - 1);
+        explodeBlankCells(row , col + 1);
+        explodeBlankCells(row + 1, col - 1);
+        explodeBlankCells(row + 1, col);
+        explodeBlankCells(row + 1, col + 1);
+
+
     }
 
 
     public void handleTap(MotionEvent e) {
-        // TODO: find the cell the player tapped
-        //      Depending on what type of cell they tapped
-        //         mine: select the cell, reveal the mines, and set the game to the LOSE state
-        //         empty cell: select the cell and explode the surrounding cells
-        //         all others: simply select the cell
+        if(state == State.PLAY) {
+
+            float tapX = e.getX();
+            float tapY = e.getY();
+
+            float cellX = tapX / (float) cellWidth;
+            float cellY = tapY / (float) cellHeight;
+
+            Cell chosenCell = cells[(int) cellY][(int) cellX];
+            if(!chosenCell.isMarked()){
+                if (chosenCell.getType() == Cell.Type.MINE) {
+                    revealMines();
+                    state = State.LOSE;
+                } else if (chosenCell.getType() == Cell.Type.EMPTY) {
+                    explodeBlankCells((int) cellY, (int) cellX);
+                } else {
+                    chosenCell.select();
+                }
+            }
+            if(markedMines == mineCount) checkWin();
+        }
     }
 
     public void handleLongPress(MotionEvent e) {
         // TODO: find the cell and toggle its mark
         //       then check to see if the player won the game
+        if(state == State.PLAY) {
+            float tapX = e.getX();
+            float tapY = e.getY();
+
+            float cellX = tapX / (float) cellWidth;
+            float cellY = tapY / (float) cellHeight;
+
+            Cell chosenCell = cells[(int) cellY][(int) cellX];
+            chosenCell.toggleMark();
+
+            if (chosenCell.isMarked()) {
+                markedMines++;
+            } else {
+                markedMines--;
+            }
+            checkWin();
+        }
+    }
+
+    private void checkWin(){
+        int minesMarked = 0;
+        int incorrectMark = 0;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j <cols ; j++) {
+                if(cells[i][j].isMarked() && (cells[i][j].getType() == Cell.Type.MINE)){
+                    minesMarked ++;
+                }
+                else if(cells[i][j].isMarked() && !(cells[i][j].getType() == Cell.Type.MINE)){
+                    incorrectMark++;
+                }
+
+            }
+        }
+        if(minesMarked == mineCount && incorrectMark == 0){
+            state = State.WIN;
+
+        }
     }
 
 
@@ -164,6 +218,17 @@ public class Game {
 
         if (state == State.WIN) {
             // TODO draw a win screen here
+            paint.setColor(Color.BLACK);
+            paint.setTextSize(200);
+            canvas.drawText("YOU WIN",screenWidth/8, screenHeight/2,paint );
+            paint.reset();
+        }
+        if (state == State.LOSE) {
+            // TODO draw a win screen here
+            paint.setColor(Color.BLACK);
+            paint.setTextSize(200);
+            canvas.drawText("YOU LOSE",screenWidth/11, screenHeight/2, paint );
+            paint.reset();
         }
     }
 }

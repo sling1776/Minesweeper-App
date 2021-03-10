@@ -62,8 +62,6 @@ public class Cell {
     }
 
     public void draw(Canvas canvas, Paint paint) {
-        // TODO: Draw the cell at its position depending on the state it is in
-
         if(!isSelected){
             if(isMarked){
                 int margin = 10;
